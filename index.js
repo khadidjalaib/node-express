@@ -1,8 +1,12 @@
 const express = require("express");
 const userRouter = require("./api/controllers/user/router");
 const app = express();
+const helmet = require("helmet");
+const morgan = require("morgan");
 app.use(express.json());
 app.use("/users", userRouter);
+app.use(morgan("combined")); //pour afficher la requette reçue
+app.use(helmet()); //securiser les reponse que on effectue
 
 // const todos = [
 //   {
