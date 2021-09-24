@@ -1,10 +1,20 @@
 const express = require("express");
 const userRouter = require("./api/controllers/user/router");
+const todoRouter = require("./api/controllers/todo/router");
 const app = express();
 const helmet = require("helmet");
 const morgan = require("morgan");
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost:27017/myfirstBase", {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+});
+const db = mongoose.connection;
+
+db.once("open", () => console.log("database connected "));
 app.use(express.json());
 app.use("/users", userRouter);
+app.use("/todos", todoRouter);
 app.use(morgan("combined")); //pour afficher la requette reçue
 app.use(helmet()); //securiser les reponse que on effectue
 

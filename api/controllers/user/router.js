@@ -1,13 +1,14 @@
 const express = require("express");
 const controller = require("./controller");
 const hourMiddleware = require("../../../middlewares/hourMiddleware");
+const validator = require("../../../validators/user");
 const userRouter = express.Router();
 
 userRouter
-  .get("/", hourMiddleware.verifyMorning, controller.getUsers)
+  .get("/", controller.getUsers) //, hourMiddleware.verifyMorning
   .get("/:id", controller.getUserById)
-  .get("/", controller.createUser)
-  .get("/:id", controller.updateUser)
+  .post("/", validator.validatePost, controller.createUser)
+  .put("/:id", validator.validatePut, controller.updateUser)
   .delete("/:id", controller.deleteUser);
 
 module.exports = userRouter;
